@@ -1,0 +1,8 @@
+.weather {
+  background-image: url(../../../public/landscape-3369304_1920.jpg);
+  background-repeat: no-repeat;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
