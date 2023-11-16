@@ -17,7 +17,6 @@ const WeatherDetails = ({
       <div>
         <div className={styles.searchbox}>
           <div className="main">
-            {/* <h1>City Name</h1> */}
             <div
               className="search"
               style={{
@@ -31,7 +30,7 @@ const WeatherDetails = ({
                 id="outlined-basic"
                 variant="outlined"
                 fullWidth
-                label="Search city name here"
+                label="Enter city name here"
                 onChange={inputSerachHandler}
                 value={searchedCity}
                 type="text"
@@ -58,7 +57,7 @@ const WeatherDetails = ({
         </div>
         <div
           style={{
-            width: "550px",
+            width: "600px",
             backgroundColor: "#262A2E",
             height: "400px",
             borderRadius: "30px",
@@ -66,6 +65,7 @@ const WeatherDetails = ({
             margin: "20px",
             color: "white",
             fontSize: "20px",
+            padding: "80px",
           }}
           className="d-flex flex-column justify-content-center align-items-center"
         >
@@ -75,34 +75,50 @@ const WeatherDetails = ({
           <div>
             <h3>{weatherData.cityTemp ? `${weatherData.cityTemp}°C` : ""}</h3>
           </div>
-          <div>
-            <p>
-              {weatherData.humidity
-                ? `Humidity : ${weatherData.humidity} %`
-                : ""}
-            </p>
+          <div
+            className="d-flex justify-content-between"
+            style={{ width: "100%" }}
+          >
+            <div>
+              <p>
+                {weatherData.humidity
+                  ? `Humidity : ${weatherData.humidity} %`
+                  : ""}
+              </p>
+            </div>
+
+            <div>
+              <p>
+                {weatherData.windSpeed
+                  ? `Wind-Speed : ${weatherData.windSpeed} Km/h`
+                  : ""}
+              </p>
+            </div>
           </div>
-          <div>
-            <p>
-              {weatherData.windSpeed
-                ? `Wind-Speed : ${weatherData.windSpeed} Km/h`
-                : ""}
-            </p>
+
+          <div
+            className="d-flex justify-content-between"
+            style={{ width: "100%" }}
+          >
+            <div>
+              <p>
+                {weatherData.sunrise
+                  ? `Sunrise  \u00A0${weatherData.sunrise}`
+                  : ""}
+              </p>
+            </div>
+
+            <div>
+              <p>
+                {weatherData.sunset
+                  ? `Sunset  \u00A0${weatherData.sunset}`
+                  : ""}
+              </p>
+            </div>
           </div>
+
           <div>
             <p> {weatherData.sky ? `Sky : ${weatherData.sky}` : ""}</p>
-          </div>
-          <div>
-            <p>
-              {weatherData.sunrise
-                ? `Sunrise  \u00A0${weatherData.sunrise}`
-                : ""}
-            </p>
-          </div>
-          <div>
-            <p>
-              {weatherData.sunset ? `Sunset  \u00A0${weatherData.sunset}` : ""}
-            </p>
           </div>
           <div>
             <p>{weatherData.date ? `Date :  ${weatherData.date}` : ""}</p>
