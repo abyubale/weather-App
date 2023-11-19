@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import {
+  defaultUrl,
+  enterCityName,
   getWeatherData,
   getWeatherDataByCoord,
+  notFound,
+  realApiCall,
+  serverErr,
 } from "../../services/getWeatherData";
 import WeatherDetails from "../WeatherDetails/WeatherDetails";
 import styles from "./WeatherApp.module.css";
@@ -21,26 +26,46 @@ const WeatherApp = () => {
   const [searchedCity, setSearchedCity] = useState("");
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
+  const [isError, setIsError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    console.log(navigator);
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setLatitude(position.coords.latitude);
           setLongitude(position.coords.longitude);
         },
-        (error) => {
-          console.error("Error getting geolocation:", error);
+        () => {
+          realApiCall(defaultUrl).then((data) => {
+            setIsLoader(false);
+            getDataFromApi(data);
+          });
         }
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (latitude !== null && longitude !== null) {
+      setIsError(false);
       getWeatherDataByCoord(latitude, longitude).then((data) => {
-        getDataFromApi(data);
+        // console.log(data);
+        if (data === enterCityName) {
+          setIsLoader(false);
+          setIsError(true);
+          setErrorMsg(enterCityName);
+        } else if (data === serverErr) {
+          setIsLoader(false);
+          setIsError(true);
+          setErrorMsg(serverErr);
+        } else if (data !== enterCityName && data !== serverErr) {
+          realApiCall(data).then((data) => {
+            setIsLoader(false);
+            getDataFromApi(data);
+          });
+        }
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -95,18 +120,34 @@ const WeatherApp = () => {
 
   const searchBtnClickHandler = () => {
     setIsLoader(true);
-    getWeatherData(searchedCity)
-      .then((data) => {
-        getDataFromApi(data);
-      })
-      .catch(() => {
-        console.log("city not Found");
-      });
+    setIsError(false);
+    getWeatherData(searchedCity).then((url) => {
+      console.log(url);
+      if (url === serverErr) {
+        setIsLoader(false);
+        setIsError(true);
+        setErrorMsg(serverErr);
+      }
+      if (url === notFound) {
+        setIsLoader(false);
+        setIsError(true);
+        setErrorMsg("Please enter the valid city name !!!");
+      }
+      if (url !== notFound) {
+        realApiCall(url).then((data) => {
+          console.log("Success");
+          console.log(data);
+          setIsLoader(false);
+          getDataFromApi(data);
+        });
+      }
+    });
   };
 
   const enterBtnClickHandler = (e) => {
     if (e.key === "Enter") searchBtnClickHandler();
   };
+
   return (
     <>
       <div className={styles.weather}>
@@ -118,6 +159,8 @@ const WeatherApp = () => {
             inputSerachHandler={inputSerachHandler}
             searchedCity={searchedCity}
             enterBtnClickHandler={enterBtnClickHandler}
+            isError={isError}
+            errorMsg={errorMsg}
           />
         </div>
       </div>

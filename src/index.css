@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  background-image: url(../public/landscape-3369304_1920.jpg);
+  background-image: url(/landscape-3369304_1920.jpg);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   min-width: 320px;
