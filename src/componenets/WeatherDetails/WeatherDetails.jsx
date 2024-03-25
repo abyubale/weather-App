@@ -1,14 +1,11 @@
 /* eslint-disable react/prop-types */
 import TextField from "@mui/material/TextField";
 import styles from "./WeatherDetails.module.css";
-
-import LoadingButton from "@mui/lab/LoadingButton";
 import Loader from "../Loader/Loader";
 
 const WeatherDetails = ({
   isLoader,
   weatherData,
-  searchBtnClickHandler,
   inputSerachHandler,
   searchedCity,
   enterBtnClickHandler,
@@ -41,23 +38,6 @@ const WeatherDetails = ({
               />
             </div>
           </div>
-        </div>
-        <div className="d-flex justify-content-center">
-          {" "}
-          <LoadingButton
-            color="secondary"
-            loading={isLoader}
-            variant="contained"
-            onClick={searchBtnClickHandler}
-            disabled={searchedCity ? false : true}
-            style={{
-              backgroundColor: !isLoader ? "green" : "#829eb3",
-              width: "130px",
-              padding: "10px",
-            }}
-          >
-            <span>Search</span>
-          </LoadingButton>
         </div>
 
         {!isError && !isLoader && (

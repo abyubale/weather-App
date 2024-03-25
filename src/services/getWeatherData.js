@@ -1,6 +1,6 @@
 export const getWeatherData = (cityName = "mumbai") => {
   return fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&limit=5&appid=88f2c30681ef3d7fd287876f375145f0`
+    `https://weather-app-backend-1n7x.onrender.com/api/weather-details?city=${cityName}`
   ).then((res) => {
     return res.json();
   });
@@ -8,7 +8,7 @@ export const getWeatherData = (cityName = "mumbai") => {
 
 export const getWeatherDataByCoord = (lat, lon) => {
   return fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&l&appid=88f2c30681ef3d7fd287876f375145f0`
+    `https://weather-app-backend-1n7x.onrender.com/api/weather-details?lat=${lat}&lon=${lon}`
   ).then((res) => {
     return res.json();
   });

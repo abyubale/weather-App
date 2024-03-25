@@ -112,14 +112,12 @@ const WeatherApp = () => {
     setSearchedCity(userInput.trim().toLowerCase());
   };
 
-  const searchBtnClickHandler = () => {
-    setIsLoader(true);
-    setIsError(false);
-    getWeatherUpdate(searchedCity);
-  };
-
   const enterBtnClickHandler = (e) => {
-    if (e.key === "Enter") searchBtnClickHandler();
+    if (e.key === "Enter") {
+      setIsLoader(true);
+      setIsError(false);
+      getWeatherUpdate(searchedCity);
+    }
   };
 
   return (
@@ -127,7 +125,6 @@ const WeatherApp = () => {
       <div className={styles.weather}>
         <div>
           <WeatherDetails
-            searchBtnClickHandler={searchBtnClickHandler}
             weatherData={weatherData}
             isLoader={isLoader}
             inputSerachHandler={inputSerachHandler}
