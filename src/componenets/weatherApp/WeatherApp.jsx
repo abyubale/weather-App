@@ -31,6 +31,21 @@ const WeatherApp = () => {
   const [isError, setIsError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
+  const getDataFromApi = (data) => {
+    const copyOfWeatherData = { ...weatherData };
+    copyOfWeatherData.cityTemp = (data.main.temp - 273.15).toFixed(2);
+    copyOfWeatherData.cityName = data.name;
+    copyOfWeatherData.humidity = data.main.humidity;
+    copyOfWeatherData.windSpeed = data.wind.speed;
+    copyOfWeatherData.sky = data.weather[0].main;
+    copyOfWeatherData.sunrise = convertUnixTimestampToTime(data.sys.sunrise);
+    copyOfWeatherData.sunset = convertUnixTimestampToTime(data.sys.sunset);
+    copyOfWeatherData.date = getCurrentDate();
+    setWeatherData(copyOfWeatherData);
+    setIsLoader(false);
+    setSearchedCity("");
+  };
+
   const getWeatherUpdate = (city) => {
     getWeatherData(city)
       .then((data) => {
@@ -91,21 +106,6 @@ const WeatherApp = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [latitude, longitude]);
-
-  const getDataFromApi = (data) => {
-    const copyOfWeatherData = { ...weatherData };
-    copyOfWeatherData.cityTemp = (data.main.temp - 273.15).toFixed(2);
-    copyOfWeatherData.cityName = data.name;
-    copyOfWeatherData.humidity = data.main.humidity;
-    copyOfWeatherData.windSpeed = data.wind.speed;
-    copyOfWeatherData.sky = data.weather[0].main;
-    copyOfWeatherData.sunrise = convertUnixTimestampToTime(data.sys.sunrise);
-    copyOfWeatherData.sunset = convertUnixTimestampToTime(data.sys.sunset);
-    copyOfWeatherData.date = getCurrentDate();
-    setWeatherData(copyOfWeatherData);
-    setIsLoader(false);
-    setSearchedCity("");
-  };
 
   const inputSerachHandler = (e) => {
     const userInput = e.target.value;
